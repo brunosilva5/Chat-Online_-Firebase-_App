@@ -1,15 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:pt/chat_screen.dart';
 
-void main(){
+void main() async{ 
   
   runApp(MyApp());
-  Firestore.instance.collection("mensagens").document("msg2").setData({
-    "texto": "Tudo bem?",
-    "from" : "Carolina",
-    "read" : false
+
+  Firestore.instance.collection("mensagens").snapshots().listen((dado){
+    dado.documents.forEach((d){
+      print(d.data);
     });
+  });
+
 }
+
+
 
 class MyApp extends StatelessWidget {
   @override
@@ -18,8 +23,11 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        iconTheme: IconThemeData(
+          color: Colors.blue
+        )
       ),
-      home: Container(),
+      home: ChatScreen(),
     );
   }
 }
